@@ -82,6 +82,7 @@ b2 = yc1 - m2 * v1; %intercept
 x_val2 = linspace(-0.14, 0.06, 100); 
 y_val2 = m2 * x_val2 + b2;
 plot(x_val2, y_val2, 'b');
+
 %for LnS line Ln(xcn,zn) S(0,0)
 m3 = zn/xcn;
 b3 = 0 - m3 * 0;
@@ -97,29 +98,30 @@ eq2 = y == m3*x + b3;
 text(Px,  Py,'delta');
 
 %finding L1(l1,xc1)
-syms x y;
 l1=v1;
 l1=double(l1);
 xc1=polyval(p1,l1);
 text(l1,  xc1,'L1');
 
-
-m2 = (zf-yc1)/(xcf-v1);
-b2 = yc1 - m2 * v1; %intercept
-x_val2 = linspace(-0.14, 0.06, 100); 
-y_val2 = m2 * x_val2 + b2;
-plot(x_val2, y_val2, 'b');
 %finding the L1 delta line
 %for L1 delta line L1(l1,xc1) delta(Px,Py)
 m2 = (xc1-Py)/(l1-Px);
 b2 = Py - m2 * Px; %intercept
 x_val2 = linspace(-0.14, 0.06, 100); 
 y_val2 = m2 * x_val2 + b2;
-plot(x_val2, y_val2, 'b');
+plot([l1,Px],[xc1,Py])
 
 %finding the V2 point by soving L1 delta line and P2 curve
+syms x y;
+[v2,yc2] = vpasolve([y == poly2sym(p2), y == m2 * x + b2],[x,y],[0 1;0 1]); %range=[x1 x2;y1 y2]
+text(v2,  yc2,'V2');
 
-
+%finding L2(l2,xc2)
+syms x y;
+l2=v2;
+l2=double(l2);
+xc2=polyval(p1,l2);
+text(l2,  xc2,'L2');
 
 
 
