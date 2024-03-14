@@ -105,7 +105,7 @@ text(Px,  Py,'P');
 
 
 %after gettig E1 we calculate R1(using tie) and then E2(using R1P line) and so on..
-stages=1;
+stages=3;
 xbr = ones(1,stages);xcr = ones(1,stages);
 ybe = ones(1,stages);yce = ones(1,stages);
 yce(1)=yce1;ybe(1)=ybe1;
