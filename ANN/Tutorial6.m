@@ -131,8 +131,6 @@ for i=1:stages
     [xbr(i),xcr(i)] = vpasolve([y == poly2sym(p1), y == slope * x + intercept],[x,y],[0 .5;0 .7]); %range=[x1 x2;y1 y2]
     text(xbr(i),xcr(i),['R', num2str(i)]);
     
-    
-    
     %find R1P line and find point E2 by intersection of LLE & R1P
     %lineR1P   R1(xbr1,xcr1) P(Px,Py)
     m4 = (Py - xcr(i)) / (Px - xbr(i));
