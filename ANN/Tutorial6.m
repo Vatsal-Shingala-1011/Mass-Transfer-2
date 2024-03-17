@@ -31,9 +31,16 @@ end
 %% Draw the feed line (FS line)
 F = [0, 0.45];
 S = [0.96, 0.04];
-plot(S,F , 'g', 'linewidth', 0.35)
 text(0,  0.45,'F');
 text(0.96,  0.04,'S');
+% Extracting coordinates
+xF = F(1);
+yF = F(2);
+xS = S(1);
+yS = S(2);
+% Plotting the line
+plot([xF, xS], [yF, yS], 'r', 'linewidth', .5); % 'r' for red color, adjust as needed
+
 
 p1 = polyfit(B,C,6);
 X_=0.04001:0.02:1;
@@ -146,11 +153,11 @@ end
 
 
 %to find number of stages need to plot graph of conc oc c in raffinate atevery stage
-figure(2)
-plot(xcr, '-bo');
-xlabel("Number of stages");
-ylabel("Solute Fraction in raffinate");
-title("Solute Fraction vs no of stages");
-
-disp("from the graph 0.04 fraction of c remain in raffinat after 10 stages")
+% figure(2)
+% plot(xcr, '-bo');
+% xlabel("Number of stages");
+% ylabel("Solute Fraction in raffinate");
+% title("Solute Fraction vs no of stages");
+% 
+% disp("from the graph 0.04 fraction of c remain in raffinat after 10 stages")
 

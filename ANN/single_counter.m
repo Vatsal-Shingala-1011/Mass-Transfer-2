@@ -1,4 +1,3 @@
-%final 
 clc;
 clear;
 
@@ -6,7 +5,7 @@ B = [0.04 0.05 0.07 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 0.993 1];
 C = [0 0.11 0.26 0.375 0.474 0.487 0.468 0.423 0.356 0.274 0.185 0.09 0.001 0];
 A = 1 - B - C;
 
-figure(1)
+figure;
 plot(B,C,'bo-');
 grid on;
 hold on;
@@ -38,17 +37,6 @@ S = [0.995, 0.005];
 plot(S,F,'g','linewidth',0.35)
 text(0, 0.5,'F');
 text(0.995, 0.005,'S');
-%% Draw the feed line (FS line)
-F = [0, 0.5];
-S = [0.995, 0.005];
-% Extracting coordinates
-xF = F(1);
-yF = F(2);
-xS = S(1);
-yS = S(2);
-mm=(S(2)-F(2))/(S(1)-F(1));
-% Plotting the line
-plot([xF, xS], [yF, yS], 'bl', 'linewidth', .5); % 'r' for red color, adjust as neede
 
 p1 = polyfit(B,C,6);
 X_=0.04001:0.02:1;
@@ -59,27 +47,27 @@ xbf = 0;
 xcf = 0.5;
 xc_in_feed=xcf;
 
-filename = 'conter_final.xlsx';
+filename = 'CCOOuu.xlsx';
 if exist(filename, 'file') == 0
     headers = {'Feed', '%C_removed', 'Stages'};
     xlswrite(filename, headers, 'Sheet1', 'A1');
 end
 
 % Loop over different feed values
-F_values = 400:5:2000;
+F_values = 800;
 for F = F_values
     disp(F);
     Feed = F;
     S = F;
-    Rnx_values = 0.0401:0.0008:0.07;
+%     Rnx_values = 0.0401:0.0008:0.066;
+Rnx_values=0.0601;
     for Rnx = Rnx_values     
         Rny = polyval(p1,Rnx);
         M = F + S;
         ycs = Rny;
         ybs = 1-Rny;
-%         My = (F*xcf + S*ycs)/M;
+        My = (F*xcf + S*ycs)/M;
         Mx = (F*xbf + S*ybs)/M;
-        My= mm*Mx + .5;
         text(Mx, My,'M');
         
         plot([Rnx, Mx], [Rny, My], 'o'); 
@@ -154,16 +142,22 @@ for F = F_values
                 xlswrite(filename, data, 'Sheet1', ['A' num2str(next_row)]);
                 break;
             end
-%             if i==100
-%                 solute_removed_pr = ((xc_in_feed-Rny) / xc_in_feed) * 100;
-%                 existing_data = xlsread(filename);
-%                 next_row = size(existing_data, 1) + 1;
-%                 data = [Feed, solute_removed_pr, 100];
-%                 xlswrite(filename, data, 'Sheet1', ['A' num2str(next_row)]);
-%                 break;
-%             end
+            if i==100
+                solute_removed_pr = ((xc_in_feed-Rny) / xc_in_feed) * 100;
+                existing_data = xlsread(filename);
+                next_row = size(existing_data, 1) + 1;
+                data = [Feed, solute_removed_pr, 100];
+                xlswrite(filename, data, 'Sheet1', ['A' num2str(next_row)]);
+                break;
+            end
             ii = ii+1;
         end
     end
 end
 
+% Plotting solute fraction vs number of stages
+figure(2)
+plot(xcr, '-bo');
+xlabel("Number of stages");
+ylabel("Solute Fraction in raffinate");
+title("Solute Fraction vs Number of Stages");
